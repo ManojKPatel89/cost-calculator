@@ -147,20 +147,6 @@ export class CalcComponent implements OnInit {
   }
 
   report() {
-    console.log("Total players :", this.noOfPlayers)
-    console.log("Shuttle cost per player :", this.perShuttleCost)
-    console.log("Court cost per player :", this.perCourtCost)
-
-    console.log("Others pay :", (this.perCourtCost + this.perShuttleCost) * this.noOfOtherPlayers)
-    console.log("members pay")
-    this.playersArray.value.forEach((p: Player) => {
-      if (p.pay > p.refund) {
-        console.log(p.name, " pay ", p.pay-p.refund)
-      } else {
-        console.log(p.name, " refund ", p.refund-p.pay)
-      }
-    });
-
     this.showReport = true
     this.showForm = false
   }
@@ -180,5 +166,9 @@ export class CalcComponent implements OnInit {
       players: this.fb.array(PlayersList.map(f => this.fb.group(f))),
       otherPlayersCount: new FormControl
     })
+  }
+
+  roundNum(num: number) {
+    return Math.round((num + Number.EPSILON) * 100) / 100
   }
 }

@@ -66,15 +66,15 @@
           <td>{{player.value.name}}</td>
           <td *ngIf="player.value.playedToday">Yes</td>
           <td *ngIf="!player.value.playedToday">No</td>
-          <td *ngIf="player.value.pay > player.value.refund">Pay : {{player.value.pay - player.value.refund}}</td>
-          <td *ngIf="player.value.refund > player.value.pay">Refund : {{player.value.refund - player.value.pay}}</td>
+          <td *ngIf="player.value.pay > player.value.refund">Pay : {{roundNum(player.value.pay - player.value.refund)}}</td>
+          <td *ngIf="player.value.refund > player.value.pay">Refund : {{roundNum(player.value.refund - player.value.pay)}}</td>
           <td *ngIf="player.value.pay == 0 && player.value.refund == 0">0</td>
         </tr>
         <tr *ngIf="noOfOtherPlayers > 0">
           <th scope="row">6</th>
           <td>Others X {{noOfOtherPlayers}}</td>
           <td>Yes</td>
-          <td>Pay : {{(this.perCourtCost + this.perShuttleCost) * this.noOfOtherPlayers}}</td>
+          <td>Pay : {{roundNum((this.perCourtCost + this.perShuttleCost) * this.noOfOtherPlayers)}}</td>
         </tr>
       </tbody>
     </table>
