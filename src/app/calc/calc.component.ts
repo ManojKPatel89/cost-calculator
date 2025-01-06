@@ -169,7 +169,6 @@ export class CalcComponent implements OnInit {
   }
 
   roundNum(num: any) {
-    num = Math.round(num)
-    return num
+    return Math.round((num + Number.EPSILON) * 100) / 100
   }
 }
