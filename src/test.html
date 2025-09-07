@@ -1,0 +1,84 @@
+<div class="container">
+  <div *ngIf="showForm">
+    <h1>Game cost split</h1>
+    <form [formGroup]="splitForm" class="form" (ngSubmit)="onSubmit()">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="form-floating mb-3">
+            <input class="form-control" id="courtCost" formControlName="courtCost">
+            <label for="courtCost">Court Cost</label>
+          </div>
+
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-floating">
+                <input class="form-control" id="shuttleCost" formControlName="shuttleCost">
+                <label for="shuttleCost">Shuttle Cost</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="shuttleUsed" formControlName="shuttleUsed">
+                  <option selected value="half">Half</option>
+                  <option value="full">Full</option>
+                </select>
+                <label for="shuttleUsed">Shuttle Used</label>
+              </div>
+            </div>
+          </div>
+
+          <fieldset class="row">
+            <legend class="col-form-label">Players played :</legend>
+            <div class="col-sm-10">
+              <div formArrayName="players">
+                <div *ngFor="let player of playersArray.controls; let i = index" [formGroupName]="i" class="form-check">
+                  <input class="form-check-input" type="checkbox" formControlName="playedToday" />
+                  <label class="form-check-label">{{player.value.name}}</label>
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                <input class="form-control" id="otherPlayersCount" formControlName="otherPlayersCount">
+                <label for="otherPlayersCount">No of other players</label>
+              </div>
+            </div>
+          </fieldset>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success btn-space">Calculate</button>
+            <button type="button" class="btn btn-secondary" (click)="displayForm();">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="showReport">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Played</th>
+          <th scope="col">Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let player of playersArray.controls; let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td>{{player.value.name}}</td>
+          <td *ngIf="player.value.playedToday">Yes</td>
+          <td *ngIf="!player.value.playedToday">No</td>
+          <td *ngIf="player.value.pay > player.value.refund">Pay : {{roundNum(player.value.pay - player.value.refund)}}</td>
+          <td *ngIf="player.value.refund > player.value.pay">Refund : {{roundNum(player.value.refund - player.value.pay)}}</td>
+          <td *ngIf="player.value.pay == 0 && player.value.refund == 0">0</td>
+        </tr>
+        <tr *ngIf="noOfOtherPlayers > 0">
+          <th scope="row">6</th>
+          <td>Others X {{noOfOtherPlayers}}</td>
+          <td>Yes</td>
+          <td>Pay : {{roundNum((this.perCourtCost + this.perShuttleCost) * this.noOfOtherPlayers)}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-success btn-space" (click)="displayForm();">Home</button>
+    <button type="button" class="btn btn-secondary">Share</button>
+  </div>
+</div>
