@@ -145,7 +145,7 @@ export default function CostCalculator() {
           (player) => `
             <tr>
               <td>${player.name}</td>
-              <td>${player.amount}</td>
+              <td>${player.amount.toFixed(2)}</td>
             </tr>
           `
         )
@@ -265,7 +265,7 @@ export default function CostCalculator() {
                 </Form.Group>
               </Col>
             </Row>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="me-2">
               Submit
             </Button>
             <Button variant="secondary" onClick={handleReset}>
